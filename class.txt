@@ -1,0 +1,43 @@
+@startuml
+class Manager {
+  - books: List<Book>
+  + Manager()
+  + addBook(book: Book): void
+  + showBooks(): void
+  + searchBooksByISBN(isbn: String): Book
+  + searchBookBYAuthor(author: String)
+  + borrowBook(isbn: String, borrowerID: int): boolean
+  + returnBook(isbn: String): boolean
+  + getBorrowedBooks(): List<Book>
+  + removeBook(isbn: String): boolean
+  + showStats(): void
+}
+
+class Book{
+  - isbn: String
+  - title: String
+  - author: String
+  - status: BookStatus
+  + Book(isbn: String, title: String, author: String)
+  + getStatus(): BookStatus
+  + setStatus(status: BookStatus): void
+}
+
+class Borrower {
+  - name: String
+  - memberId: String
+  + Borrower(name: String, memberId: String)
+  + getName(): String
+  + getMemberId(): String
+}
+
+
+enum BookStatus {
+  AVAILABLE
+  BORROWED
+  LOST
+}
+
+Manager --> Book
+Manager --> Borrower
+@enduml
