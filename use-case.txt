@@ -1,0 +1,19 @@
+@startuml
+left to right direction
+actor User as "Gérant de Bibliothèque"
+actor emp as "emprunteur"
+rectangle "Système de gestion" {
+User --> (gestion livre)
+  User --> (Recherche livre)
+  User --> (emprunter livre)
+  User --> (retourner livre)
+  User --> (afficher livres emprunter)
+  User --> (affichier les statistques)
+  (gestion livre) <.. (ajouter livre) :<<extend>>
+(gestion livre) <.. (supprimer livre) :<<extend>>
+(gestion livre) <.. (modifier livre) :<<extend>>
+}
+(emprunter livre) <--- emp
+(retourner livre) <--- emp
+
+@enduml
