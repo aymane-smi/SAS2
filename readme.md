@@ -6,3 +6,6 @@
 ![use-case](use-case.png)
 - ***Class de diagrammes:***
   ![use-case](class.png)
+## MERISE
+
+![merise](merise.png)

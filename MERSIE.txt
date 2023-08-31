@@ -1,0 +1,26 @@
+@startuml
+
+class Book{
+ - #id : int
+ - name: varchar(50)
+}
+
+class Borrower{
+ - #isbn: varchar(50)
+ - title: varchar(50)
+ - author: varchar(50)
+ - status: enum{BORROWED, AVAILABLE, LOST}
+}
+
+class Borrower_Book{
+ - #isbn: varchar(50)
+ - #idborrower : int
+ - borrow_start: Date
+ - borrow_end: Date
+}
+
+Book "0...n" --> Borrower_Book
+Borrower_Book "0...n" <-- Borrower
+
+
+@enduml
