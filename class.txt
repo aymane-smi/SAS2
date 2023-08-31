@@ -1,4 +1,80 @@
 @startuml
+
+!define ENTITY class
+!define DAO interface
+!define IMPL class
+
+class Book{
+  - isbn: String
+  - title: String
+  - author: String
+  - status: BookStatus
+  + Book(isbn: String, title: String, author: String)
+  + getIsbn(): String
+  + setIsbn(isbn: String): void
+  + getStatus(): BookStatus
+  + setStatus(status: BookStatus): void
+  + getAuthor(): String
+  + setAuthor(author: String): void
+  + getTitle(): String
+  + setTitle(title: String): void
+}
+
+class Borrower {
+  - name: String
+  - memberId: String
+  + Borrower(name: String, memberId: String)
+  + Borrower(name: String)
+  + getName(): String
+  + getMemberId(): String
+  + setName(name: String): String
+}
+
+interface BookDAO {
+    + createBook(book: Book): bool
+    + updateBook(book: Book, isbn: String): bool
+    + deleteByIsbn(isbn: String): bool
+    + getByIsbn(isbn: String): Book
+    + getByAuthor(author: String): List<Book>
+    + getAll(): List<Book>
+    + returnBook(isbn : String): boolean
+}
+
+interface BorrowerDAO {
+    + create(borrower: Borrower): int
+    + updateById(borrower: Borrower): bool
+    + deleteById(id: int): bool
+    + getById(id: int): Borrower
+}
+
+class BookDAOImpl {
+    + create(book: Book): int
+    + update(book: Book): bool
+    + delete(id: int): bool
+    + getById(id: int): Book
+    + getByIsbn(isbn: String): Book
+    + getByAuthor(author: String): List<Book>
+    + getAll(): List<Book>
+    + returnBook(isbn : String): boolean
+}
+
+class BorrowerDAOImpl {
+    + create(borrower: Borrower): int
+    + updateById(borrower: Borrower): bool
+    + deleteById(id: int): bool
+    + getById(id: int): Borrower
+}
+
+class ConnectionJDBC{
+   - {static} String HOST
+   - {static} String USER
+   - {static} String PASS
+   - {static} Connection connection
+   - ConnectionJDBC()
+   + getConnection(): Connection
+
+}
+
 class Manager {
   - books: List<Book>
   + Manager()
@@ -13,31 +89,20 @@ class Manager {
   + showStats(): void
 }
 
-class Book{
-  - isbn: String
-  - title: String
-  - author: String
-  - status: BookStatus
-  + Book(isbn: String, title: String, author: String)
-  + getStatus(): BookStatus
-  + setStatus(status: BookStatus): void
-}
-
-class Borrower {
-  - name: String
-  - memberId: String
-  + Borrower(name: String, memberId: String)
-  + getName(): String
-  + getMemberId(): String
-}
-
-
 enum BookStatus {
   AVAILABLE
   BORROWED
   LOST
 }
 
-Manager --> Book
-Manager --> Borrower
+Manager --> BookDAOImpl
+Manager --> BorrowerDAOImpl
+@enduml
+
+BookDAO <|-- BookDAOImpl
+BookDAOImpl --o ConnectionJDBC
+BorrowerDAO <|-- BorrowerDAOImpl
+BorrowerDAOImpl --o ConnectionJDBC
+
+
 @enduml
