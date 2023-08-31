@@ -9,6 +9,7 @@ class Book{
   - title: String
   - author: String
   - status: BookStatus
+  - borrower: Borrower
   + Book(isbn: String, title: String, author: String)
   + getIsbn(): String
   + setIsbn(isbn: String): void
@@ -18,6 +19,8 @@ class Book{
   + setAuthor(author: String): void
   + getTitle(): String
   + setTitle(title: String): void
+  + getBorrower(): Borrower
+  + setBorrower(): void
 }
 
 class Borrower {
@@ -103,6 +106,4 @@ BookDAO <|-- BookDAOImpl
 BookDAOImpl --o ConnectionJDBC
 BorrowerDAO <|-- BorrowerDAOImpl
 BorrowerDAOImpl --o ConnectionJDBC
-
-
-@enduml
+Book --o Borrower
