@@ -30,12 +30,13 @@ class Borrower {
   + Borrower(name: String)
   + getName(): String
   + getMemberId(): String
+  + setMemberId(id: int): void
   + setName(name: String): String
 }
 
 interface BookDAO {
-    + createBook(book: Book): bool
-    + updateBook(book: Book, isbn: String): bool
+    + create(book: Book): bool
+    + update(book: Book): bool
     + deleteByIsbn(isbn: String): bool
     + getByIsbn(isbn: String): Book
     + getByAuthor(author: String): List<Book>
@@ -44,17 +45,25 @@ interface BookDAO {
 }
 
 interface BorrowerDAO {
-    + create(borrower: Borrower): int
+    + create(borrower: Borrower): bool
     + updateById(borrower: Borrower): bool
     + deleteById(id: int): bool
     + getById(id: int): Borrower
 }
 
+interface PivoteDAO {
+    + create(isbn: String, id: int): bool
+    + deleteBook(isbn: String): bool
+    + delete(isbn: String, id: int): bool
+    + getByIsbn(isbn: string): List<int>
+    + getById(id: int): List<String>
+    + deleteOne(id: int, isbn: string): boolean
+}
+
 class BookDAOImpl {
-    + create(book: Book): int
+    + create(book: Book): bool
     + update(book: Book): bool
-    + delete(id: int): bool
-    + getById(id: int): Book
+    + deleteByIsbn(isbn: string): bool
     + getByIsbn(isbn: String): Book
     + getByAuthor(author: String): List<Book>
     + getAll(): List<Book>
@@ -62,10 +71,19 @@ class BookDAOImpl {
 }
 
 class BorrowerDAOImpl {
-    + create(borrower: Borrower): int
+    + create(borrower: Borrower): bool
     + updateById(borrower: Borrower): bool
     + deleteById(id: int): bool
     + getById(id: int): Borrower
+}
+
+class PivoteDAOImpl {
+    + create(isbn: String, id: int): bool
+    + deleteBook(isbn: String): bool
+    + delete(isbn: String, id: int): bool
+    + getByIsbn(isbn: string): List<int>
+    + getById(id: int): List<String>
+    + deleteOne(id: int, isbn: string): boolean
 }
 
 class ConnectionJDBC{
@@ -100,10 +118,11 @@ enum BookStatus {
 
 Manager --> BookDAOImpl
 Manager --> BorrowerDAOImpl
-@enduml
-
+Manager --> PivoteDAOImpl
 BookDAO <|-- BookDAOImpl
 BookDAOImpl --o ConnectionJDBC
 BorrowerDAO <|-- BorrowerDAOImpl
 BorrowerDAOImpl --o ConnectionJDBC
 Book --o Borrower
+PivoteDAOImpl --|> PivoteDAO
+@enduml
