@@ -21,6 +21,7 @@ public class BookDAOImpl implements BookDAO{
             String query = "INSERT INTO Book(isbn, title, author, status) VALUES(?,?,?,?)";
             PreparedStatement stmt = connection.prepareStatement(query);
             int result = stmt.executeUpdate();
+            stmt.close();
             if(result > 0)
                 return true;
             else
@@ -41,6 +42,7 @@ public class BookDAOImpl implements BookDAO{
             stmt.setString(3, book.getStatus());
             stmt.setString(4, book.getIsbn());
             int result = stmt.executeUpdate();
+            stmt.close();
             if(result > 0)
                 return true;
             else

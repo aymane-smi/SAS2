@@ -1,4 +1,7 @@
 package org.sas2.DAO;
+import org.sas2.Entity.BorrowerBook;
+
+import java.util.Date;
 import java.util.List;
 
 public interface PivoteDAO {
@@ -9,7 +12,7 @@ public interface PivoteDAO {
      * @param id   The ID associated with the book.
      * @return true if the record was created successfully, false otherwise.
      */
-    boolean create(String isbn, int id);
+    boolean create(String isbn, int id, Date borrow_end);
 
     /**
      * Deletes a book record by its ISBN.
@@ -34,7 +37,7 @@ public interface PivoteDAO {
      * @param isbn The ISBN to query.
      * @return A List of integers representing IDs associated with the ISBN.
      */
-    List<Integer> getByIsbn(String isbn);
+    BorrowerBook getByIsbn(String isbn);
 
     /**
      * Retrieves a list of ISBNs associated with a given ID.
@@ -42,14 +45,5 @@ public interface PivoteDAO {
      * @param id The ID to query.
      * @return A List of strings representing ISBNs associated with the ID.
      */
-    List<String> getById(int id);
-
-    /**
-     * Deletes a specific record by ID and ISBN.
-     *
-     * @param id   The ID associated with the book.
-     * @param isbn The ISBN of the book.
-     * @return true if the record was deleted successfully, false otherwise.
-     */
-    boolean deleteOne(int id, String isbn);
+    List<BorrowerBook> getById(int id);
 }
