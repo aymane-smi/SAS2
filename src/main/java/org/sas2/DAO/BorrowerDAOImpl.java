@@ -6,6 +6,9 @@ import org.sas2.Entity.Borrower;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BorrowerDAOImpl implements BorrowerDAO{
     private Connection connection;
@@ -15,20 +18,28 @@ public class BorrowerDAOImpl implements BorrowerDAO{
     }
 
     @Override
-    public boolean create(Borrower borrower){
+    public Map<Boolean, Integer> create(Borrower borrower){
+        Map<Boolean, Integer> resultMap = new HashMap<>();
         try{
             String query = "INSERT INTO Borrower(name) VALUES(?)";
-            PreparedStatement stmt = connection.prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, borrower.getName());
             int result = stmt.executeUpdate();
-            if(result > 1)
-                return true;
-            else
+            if(result > 0){
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int generatedId = generatedKeys.getInt(1);
+                    resultMap.put(true, generatedId);
+                    return resultMap;
+                }
+            }else
                 throw new Exception("failed to insert record");
         }catch(Exception e){
             System.out.println(e.getMessage());
-            return false;
+            resultMap.put(false, -1);
+            return resultMap;
         }
+        return resultMap;
     }
 
     @Override

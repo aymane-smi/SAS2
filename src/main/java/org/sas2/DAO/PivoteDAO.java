@@ -46,4 +46,6 @@ public interface PivoteDAO {
      * @return A List of strings representing ISBNs associated with the ID.
      */
     List<BorrowerBook> getById(int id);
+
+    List<BorrowerBook> getAll();
 }

@@ -34,6 +34,24 @@ class Borrower {
   + setName(name: String): String
 }
 
+class BorrowerBook {
+        - isbn: String
+        - idBorrower: int
+        - borrow_start: Date
+        - borrow_end: Date
+
+        + getIsbn(): String
+        + setIsbn(isbn: String): void
+        + getIdBorrower(): int
+        + setIdBorrower(idBorrower: int): void
+        + getBorrow_start(): Date
+        + setBorrow_start(borrow_start: Date): void
+        + getBorrow_end(): Date
+        + setBorrow_end(borrow_end: Date): void
+
+        + BorrowerBook(isbn: String, idBorrower: int, borrow_start: Date, borrow_end: Date)
+    }
+
 interface BookDAO {
     + create(book: Book): bool
     + update(book: Book): bool
@@ -81,9 +99,8 @@ class PivoteDAOImpl {
     + create(isbn: String, id: int): bool
     + deleteBook(isbn: String): bool
     + delete(isbn: String, id: int): bool
-    + getByIsbn(isbn: string): List<int>
-    + getById(id: int): List<String>
-    + deleteOne(id: int, isbn: string): boolean
+    + getByIsbn(isbn: string): BorrowBook
+    + getById(id: int): List<BorrowBook>
 }
 
 class ConnectionJDBC{
@@ -123,6 +140,7 @@ BookDAO <|-- BookDAOImpl
 BookDAOImpl --o ConnectionJDBC
 BorrowerDAO <|-- BorrowerDAOImpl
 BorrowerDAOImpl --o ConnectionJDBC
-Book --o Borrower
+Book -- BorrowerBook
+BorrowerBook -- Borrower
 PivoteDAOImpl --|> PivoteDAO
 @enduml

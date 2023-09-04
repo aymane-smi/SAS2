@@ -3,6 +3,7 @@ package org.sas2.DAO;
 import org.sas2.Entity.Book;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookDAO {
     public boolean create(Book book);
@@ -17,4 +18,6 @@ public interface BookDAO {
     public List<Book> getAll();
 
     public boolean ReturnBook(String isbn);
+
+    public boolean updateStatus(String isbn, String status);
 }
