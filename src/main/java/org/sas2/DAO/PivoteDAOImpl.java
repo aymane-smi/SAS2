@@ -96,7 +96,7 @@ public class PivoteDAOImpl implements PivoteDAO{
             stmt.setString(1, isbn);
             ResultSet result = stmt.executeQuery();
             while(result.next()){
-                tmp = new BorrowerBook(isbn, result.getInt("idMemeber"), result.getDate("borrow_start"), result.getDate("borrow_end"));
+                tmp = new BorrowerBook(isbn, result.getInt("idBorrower"), result.getDate("borrow_start"), result.getDate("borrow_end"));
             }
             return tmp;
         }catch(Exception e){
@@ -109,12 +109,29 @@ public class PivoteDAOImpl implements PivoteDAO{
     public List<BorrowerBook> getById(int id) {
         List<BorrowerBook> tmp = new ArrayList<>();
         try{
-            String query = "SELECT * FROM Borrower_Book WHERE idMemeber = ?";
+            String query = "SELECT * FROM Borrower_Book WHERE idBorrower = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, id);
             ResultSet result = stmt.executeQuery();
             while(result.next()){
                 tmp.add(new BorrowerBook(result.getString("isbn"), id, result.getDate("borrow_start"), result.getDate("borrow_end")));
+            }
+            return tmp;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<BorrowerBook> getAll() {
+        List<BorrowerBook> tmp = new ArrayList<>();
+        try{
+            String query = "SELECT * FROM Borrower_Book";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                tmp.add(new BorrowerBook(result.getString("isbn"), result.getInt("idBorrower"), result.getDate("borrow_start"), result.getDate("borrow_end")));
             }
             return tmp;
         }catch(Exception e){
